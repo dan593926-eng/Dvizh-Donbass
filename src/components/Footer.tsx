@@ -100,7 +100,7 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col gap-2 border-t border-white/10 pt-6 text-xs text-smoke sm:flex-row sm:items-center sm:justify-between">
           <span>{footer.copyright}</span>
-          
+          <a
             href="#home"
             data-cursor="hover"
             className="inline-flex items-center gap-1.5 hover:text-gold"
