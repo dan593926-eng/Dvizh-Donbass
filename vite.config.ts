@@ -27,20 +27,14 @@ export default defineConfig({
     },
   },
   build: {
-<<<<<<< HEAD
     target: "es2020",
     rollupOptions: {
       output: {
-        // Тяжёлые библиотеки — в отдельные чанки, лучше кешируются браузером
         manualChunks: {
           "vendor-motion": ["framer-motion"],
           "vendor-react": ["react", "react-dom"],
         },
       },
     },
-=======
-    target: 'es2020',
-    cssMinify: 'lightningcss',
->>>>>>> 45eedf24820590246d043fd2acc44b3021b432e3
   },
 });
