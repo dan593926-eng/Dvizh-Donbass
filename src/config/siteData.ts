@@ -137,7 +137,7 @@ export const footer = {
 // Замените на реальные ссылки сообщества — иконки подберутся автоматически
 // по полю `type` (см. src/components/Footer.tsx).
 export const socialLinks = [
-  { type: "telegram", label: "Telegram", href: "https://t.me/your_channel" },
+  { type: "telegram", label: "Telegram", href: "https://t.me/dvizh_donbas/1" },
   { type: "instagram", label: "Instagram", href: "https://instagram.com/your_page" },
   { type: "vk", label: "VK", href: "https://vk.com/your_group" },
   { type: "youtube", label: "YouTube", href: "https://youtube.com/@your_channel" },
