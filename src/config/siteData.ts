@@ -137,8 +137,8 @@ export const footer = {
 export const socialLinks = [
   { type: "telegram", label: "Telegram", href: "https://t.me/dvizh_donbas/1" },
   { type: "instagram", label: "Instagram", href: "https://www.instagram.com/dvizh_donbas?igsh=anhkaGN3YnFiZm85&utm_source=qr" },
-  { type: "vk", label: "VK", href: "https://vk.com/your_group" },
-  { type: "youtube", label: "YouTube", href: "https://youtube.com/@your_channel" },
+  { type: "discord", label: "Discord", href: "https://discord.gg/your_invite" },
+  { type: "tiktok", label: "TikTok", href: "https://www.tiktok.com/@dvizh.donbas?_r=1&_t=ZN-96nhhmPKm8t" },
 ] as const;
 
 export const contactsSection = {
