@@ -27,6 +27,7 @@ export default defineConfig({
     },
   },
   build: {
+<<<<<<< HEAD
     target: "es2020",
     rollupOptions: {
       output: {
@@ -37,5 +38,9 @@ export default defineConfig({
         },
       },
     },
+=======
+    target: 'es2020',
+    cssMinify: 'lightningcss',
+>>>>>>> 45eedf24820590246d043fd2acc44b3021b432e3
   },
 });
