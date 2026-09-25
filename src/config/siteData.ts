@@ -41,16 +41,11 @@ export const hero = {
   backgroundVideo: "",
 };
 
-/** Короткий интро-экран при первом открытии сайта (показывается 1 раз за сессию). */
+/** Короткий интро-экран при каждом открытии и обновлении сайта. */
 export const intro = {
   enabled: true,
-<<<<<<< HEAD
   wordTop: "DVIZH",
   wordBottom: "DONBAS",
-=======
-  wordTop: "Dvizh",
-  wordBottom: "Donbas",
->>>>>>> cc76ca00e7b2da481ecbc92b6c2355fc5d401da3
 };
 
 /** Бегущие строки между секциями */
