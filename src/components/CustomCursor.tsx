@@ -66,8 +66,9 @@ export function CustomCursor() {
   if (isTouch || reducedMotion) return null;
 
   return (
+    // z-[200] — курсор всегда поверх всего, включая просмотр фото и видео
     <div
-      className="pointer-events-none fixed inset-0 z-[70] hidden md:block"
+      className="pointer-events-none fixed inset-0 z-[200] hidden md:block"
       aria-hidden="true"
       style={{ opacity: visible ? 1 : 0, transition: "opacity 0.2s ease" }}
     >
