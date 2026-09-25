@@ -1,112 +1,91 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { useEffect, useRef, type TouchEvent } from "react";
-import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
-import { asset, assetSrcSet } from "@/lib/asset";
-import type { GalleryPhoto } from "@/data/gallery";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useIsTouchDevice } from "@/hooks/usePointerType";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-type LightboxProps = {
-  photos: GalleryPhoto[];
-  index: number;
-  onClose: () => void;
-  onNavigate: (nextIndex: number) => void;
-};
+/**
+ * Кастомный курсор: точка + мягкое кольцо с задержкой.
+ * Позиция идёт через motion values (без перерисовки React на каждое движение мыши);
+ * состояние меняется только когда курсор заходит на ссылку/кнопку или уходит с неё.
+ * Полностью отключён на touch-устройствах и при prefers-reduced-motion.
+ */
+export function CustomCursor() {
+  const isTouch = useIsTouchDevice();
+  const reducedMotion = useReducedMotion();
+  const [isHovering, setIsHovering] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const hoverRef = useRef(false);
+  const visibleRef = useRef(false);
 
-export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) {
-  useLockBodyScroll(true);
-  const touchStartX = useRef<number | null>(null);
-  const photo = photos[index];
-
-  const goPrev = () => onNavigate((index - 1 + photos.length) % photos.length);
-  const goNext = () => onNavigate((index + 1) % photos.length);
+  const x = useMotionValue(-100);
+  const y = useMotionValue(-100);
+  const ringX = useSpring(x, { damping: 28, stiffness: 260, mass: 0.5 });
+  const ringY = useSpring(y, { damping: 28, stiffness: 260, mass: 0.5 });
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") goPrev();
-      if (e.key === "ArrowRight") goNext();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index]);
+    if (isTouch || reducedMotion) return;
+    document.documentElement.classList.add("cursor-ready");
 
-  const handleTouchStart = (e: TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchEnd = (e: TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const delta = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(delta) > 50) {
-      delta > 0 ? goPrev() : goNext();
-    }
-    touchStartX.current = null;
-  };
+    const handleMove = (e: MouseEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+      if (!visibleRef.current) {
+        visibleRef.current = true;
+        setVisible(true);
+      }
+    };
+
+    const handleOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const interactive = Boolean(
+        target?.closest?.('a, button, [data-cursor="hover"], input, textarea')
+      );
+      if (interactive !== hoverRef.current) {
+        hoverRef.current = interactive;
+        setIsHovering(interactive);
+      }
+    };
+
+    const handleLeave = () => {
+      visibleRef.current = false;
+      setVisible(false);
+    };
+
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    window.addEventListener("mouseover", handleOver, { passive: true });
+    document.documentElement.addEventListener("mouseleave", handleLeave);
+
+    return () => {
+      document.documentElement.classList.remove("cursor-ready");
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mouseover", handleOver);
+      document.documentElement.removeEventListener("mouseleave", handleLeave);
+    };
+  }, [isTouch, reducedMotion, x, y]);
+
+  if (isTouch || reducedMotion) return null;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/95"
-      role="dialog"
-      aria-modal="true"
-      aria-label={photo.alt}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+    // z-[200] — курсор всегда поверх всего, включая просмотр фото и видео
+    <div
+      className="pointer-events-none fixed inset-0 z-[200] hidden md:block"
+      aria-hidden="true"
+      style={{ opacity: visible ? 1 : 0, transition: "opacity 0.2s ease" }}
     >
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Закрыть просмотр"
-        data-cursor="hover"
-        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-bone sm:right-8 sm:top-8"
-        style={{ marginTop: "env(safe-area-inset-top, 0px)" }}
-      >
-        <X size={20} />
-      </button>
-
-      <button
-        type="button"
-        onClick={goPrev}
-        aria-label="Предыдущее фото"
-        data-cursor="hover"
-        className="absolute left-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 text-bone sm:left-6 sm:flex"
-      >
-        <ChevronLeft size={22} />
-      </button>
-      <button
-        type="button"
-        onClick={goNext}
-        aria-label="Следующее фото"
-        data-cursor="hover"
-        className="absolute right-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 text-bone sm:right-6 sm:flex"
-      >
-        <ChevronRight size={22} />
-      </button>
-
-      <AnimatePresence mode="wait">
-        <motion.img
-          key={photo.id}
-          src={asset(photo.src)}
-          srcSet={assetSrcSet(photo.srcSet)}
-          sizes="90vw"
-          alt={photo.alt}
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="max-h-[82vh] max-w-[90vw] rounded-sm object-contain shadow-2xl"
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = "none";
-          }}
-        />
-      </AnimatePresence>
-
-      <p className="absolute bottom-6 left-1/2 -translate-x-1/2 px-4 text-center text-sm text-fog">
-        {index + 1} / {photos.length}
-      </p>
-    </motion.div>
+      <motion.div
+        className="fixed left-0 top-0 h-1.5 w-1.5 rounded-full bg-gold"
+        style={{ x, y, translateX: "-50%", translateY: "-50%" }}
+      />
+      {/* Размер кольца меняется через scale (дешёвый transform), а не width/height */}
+      <motion.div
+        className="fixed left-0 top-0 h-7 w-7 rounded-full border border-gold/70"
+        style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
+        animate={{
+          scale: isHovering ? 2 : 1,
+          backgroundColor: isHovering ? "rgba(255,216,0,0.1)" : "rgba(255,216,0,0)",
+        }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+      />
+    </div>
   );
 }
