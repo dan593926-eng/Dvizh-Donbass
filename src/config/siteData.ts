@@ -107,7 +107,7 @@ export const musicSection = {
   subheading:
     "Добавьте свои легальные аудиофайлы в /public/audio — плеер подхватит их автоматически из src/data/tracks.ts.",
   emptyState:
-    "Треки ещё не добавлены. Загляните в src/data/tracks.ts — там объяснено, как подключить свою подборку.",
+    "Треки ещё не добавлены.",
 };
 
 export const galleryHeading = {
@@ -117,7 +117,7 @@ export const galleryHeading = {
 
 export const videoSection = {
   heading: "ВИДЕО",
-  subtitle: "Клипы с движа — от первого лица.",
+  subtitle: "Клипы с движа.",
 };
 
 export const movement = {
