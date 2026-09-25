@@ -17,7 +17,6 @@ export const nav = [
   { label: "Главная", href: "#home" },
   { label: "О движении", href: "#about" },
   { label: "Музыка", href: "#music" },
-  { label: "История", href: "#history" },
   { label: "Фото", href: "#gallery" },
   { label: "Видео", href: "#video" },
   { label: "Движ", href: "#movement" },
@@ -45,8 +44,8 @@ export const hero = {
 /** Короткий интро-экран при первом открытии сайта (показывается 1 раз за сессию). */
 export const intro = {
   enabled: true,
-  wordTop: "ДВИЖ",
-  wordBottom: "ДОНБАСС",
+  wordTop: "DVIZH",
+  wordBottom: "DONBAS",
 };
 
 /** Бегущие строки между секциями */
@@ -110,8 +109,6 @@ export const musicSection = {
   emptyState:
     "Треки ещё не добавлены. Загляните в src/data/tracks.ts — там объяснено, как подключить свою подборку.",
 };
-
-export const historyHeading = "ИСТОРИЯ";
 
 export const galleryHeading = {
   title: "ФОТО",

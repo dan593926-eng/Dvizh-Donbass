@@ -15,7 +15,8 @@ type Particle = {
  * Лёгкая «пыль в луче прожектора» на canvas.
  * - на телефонах частиц в 2 раза меньше;
  * - рисование останавливается, когда блок вне экрана или вкладка скрыта;
- * - плотность пикселей ограничена 1.5 — меньше нагрузки на слабые GPU;
+ * - рисуются в обычном разрешении (точки крошечные, на Retina разницы не видно,
+ *   а работы для видеокарты в 2–4 раза меньше);
  * - при prefers-reduced-motion компонент не рендерится вовсе.
  */
 export function Particles({ className = "" }: { className?: string }) {
@@ -29,7 +30,7 @@ export function Particles({ className = "" }: { className?: string }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = 1;
     let width = 0;
     let height = 0;
     let particles: Particle[] = [];

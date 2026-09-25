@@ -11,7 +11,6 @@ import { Hero } from "@/sections/Hero";
 import { About } from "@/sections/About";
 import { Culture } from "@/sections/Culture";
 import { Music } from "@/sections/Music";
-import { History } from "@/sections/History";
 import { Gallery } from "@/sections/Gallery";
 import { Video } from "@/sections/Video";
 import { MovementCTA } from "@/sections/MovementCTA";
@@ -34,7 +33,6 @@ export default function App() {
         <Ticker items={tickers.primary} variant="gold" tilt={-2} />
         <Culture />
         <Music />
-        <History />
         <Gallery />
         <Ticker items={tickers.secondary} variant="dark" tilt={1.5} reverse />
         <Video />

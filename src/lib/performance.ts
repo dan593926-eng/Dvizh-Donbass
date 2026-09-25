@@ -1,6 +1,7 @@
 /**
- * Определяет слабое устройство, чтобы автоматически облегчить эффекты.
- * Критерии: ≤ 4 ядер процессора, ≤ 4 ГБ памяти или включённая экономия трафика.
+ * Определяет по-настоящему слабое устройство, чтобы облегчить эффекты.
+ * Критерии: 2 ядра процессора или меньше, 2 ГБ памяти или меньше,
+ * либо включённая экономия трафика. Обычные телефоны (4+ ГБ) сюда не попадают.
  * Результат вычисляется один раз при загрузке страницы.
  */
 type NavigatorExtra = Navigator & {
@@ -14,7 +15,7 @@ function detectLowPerf(): boolean {
   const cores = nav.hardwareConcurrency ?? 8;
   const memory = nav.deviceMemory ?? 8;
   const saveData = nav.connection?.saveData === true;
-  return cores <= 4 || memory <= 4 || saveData;
+  return cores <= 2 || memory <= 2 || saveData;
 }
 
 export const isLowPerf = detectLowPerf();

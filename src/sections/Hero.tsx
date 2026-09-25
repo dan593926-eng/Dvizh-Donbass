@@ -24,12 +24,14 @@ export function Hero({ ready }: HeroProps) {
     offset: ["start start", "end start"],
   });
 
-  // Слои двигаются с разной скоростью — глубина без тяжёлого 3D.
-  // На touch-устройствах амплитуда меньше: меньше работы для слабых GPU.
-  const bgY = useTransform(scrollYProgress, [0, 1], isTouch ? [0, 40] : [0, 140]);
-  const skylineY = useTransform(scrollYProgress, [0, 1], isTouch ? [0, 30] : [0, 90]);
-  const glowY = useTransform(scrollYProgress, [0, 1], isTouch ? [0, 60] : [0, 180]);
-  const contentY = useTransform(scrollYProgress, [0, 1], isTouch ? [0, 20] : [0, 60]);
+  // Параллакс: слои двигаются с разной скоростью при прокрутке.
+  // Только на компьютерах. На телефонах прокрутка идёт в отдельном потоке,
+  // и JS-параллакс за ней не успевает — слои дрожат. Там слои стоят на месте.
+  const parallax = !isTouch && !reducedMotion;
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const skylineY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const glowY = useTransform(scrollYProgress, [0, 1], [0, 180]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, 60]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   const showVideo = Boolean(hero.backgroundVideo) && !reducedMotion;
@@ -48,7 +50,7 @@ export function Hero({ ready }: HeroProps) {
 
       {/* Необязательный фон: фото или видео из siteData.ts → hero */}
       {(showVideo || showImage) && (
-        <motion.div style={{ y: bgY }} className="absolute inset-0 -z-10" aria-hidden="true">
+        <motion.div style={parallax ? { y: bgY } : undefined} className="absolute inset-0 -z-10" aria-hidden="true">
           {showVideo ? (
             <video
               className="h-[115%] w-full object-cover opacity-35 grayscale-[40%]"
@@ -75,7 +77,7 @@ export function Hero({ ready }: HeroProps) {
           выглядят так же, но почти ничего не стоят видеокарте */}
       <motion.div
         aria-hidden="true"
-        style={{ y: glowY }}
+        style={parallax ? { y: glowY } : undefined}
         className="pointer-events-none absolute inset-0"
       >
         <div
@@ -97,7 +99,7 @@ export function Hero({ ready }: HeroProps) {
       {/* Силуэт терриконов — та же гора, что в логотипе, в масштабе пейзажа */}
       <motion.svg
         aria-hidden="true"
-        style={{ y: skylineY }}
+        style={parallax ? { y: skylineY } : undefined}
         viewBox="0 0 1440 260"
         preserveAspectRatio="none"
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[38%] w-full text-graphite"
@@ -113,7 +115,7 @@ export function Hero({ ready }: HeroProps) {
       <div className="bg-vignette pointer-events-none absolute inset-0" aria-hidden="true" />
 
       <motion.div
-        style={{ y: contentY, opacity: contentOpacity }}
+        style={parallax ? { y: contentY, opacity: contentOpacity } : undefined}
         variants={staggerContainer(0.18, 0.1)}
         initial="hidden"
         animate={ready ? "show" : "hidden"}
@@ -152,12 +154,10 @@ export function Hero({ ready }: HeroProps) {
         style={{ marginBottom: "env(safe-area-inset-bottom, 0px)" }}
       >
         <span className="text-[11px] uppercase tracking-widish">{hero.scrollHint}</span>
-        <motion.span
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-        >
+        {/* Покачивание стрелки — чистый CSS, работает без JavaScript на каждом кадре */}
+        <span className="scroll-bob">
           <ChevronDown size={16} aria-hidden="true" />
-        </motion.span>
+        </span>
       </motion.a>
     </section>
   );

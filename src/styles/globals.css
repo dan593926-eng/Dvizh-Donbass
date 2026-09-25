@@ -78,6 +78,8 @@ h1, h2, h3, h4,
    заставлял браузер перерисовывать страницу на каждом кадре прокрутки
    (замер: 11 FPS → 60 FPS после исправления). */
 .grain-overlay {
+  /* Отдельный слой видеокарты: при прокрутке не перерисовывается */
+  transform: translateZ(0);
   position: fixed;
   inset: 0;
   z-index: 60;
@@ -192,11 +194,30 @@ h1, h2, h3, h4,
 /* ---------- Облегчённый режим для слабых устройств ----------
    Класс .perf-low ставится автоматически (см. src/lib/performance.ts):
    слабый процессор, мало памяти или включена экономия трафика. */
-.perf-low .ticker-track,
+/* Бегущие строки здесь НЕ останавливаются: их анимация (transform) почти ничего не стоит */
 .perf-low .light-leak,
 .perf-low .light-leak-slow {
   animation: none !important;
 }
 .perf-low .scanlines::before {
   display: none;
+}
+
+/* Лента вне экрана — на паузе (класс ставит компонент Ticker) */
+.ticker-paused .ticker-track {
+  animation-play-state: paused;
+}
+
+/* Покачивание стрелки «Листай вниз» */
+.scroll-bob {
+  display: inline-block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-bob {
+    animation: bob 1.8s ease-in-out infinite;
+  }
+}
+@keyframes bob {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, 6px, 0); }
 }

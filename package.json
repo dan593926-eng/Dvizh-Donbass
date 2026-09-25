@@ -1,12 +1,12 @@
 {
   "name": "dvizh-donbass",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "type": "module",
   "description": "Движ Донбасс — атмосферный сайт культурного движения",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/compress-build-images.mjs",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "images": "node scripts/optimize-images.mjs"
@@ -26,7 +26,8 @@
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5",
-    "vite": "^5.3.1"
+    "vite": "^5.3.1",
+    "sharp": "^0.33.5"
   },
   "engines": {
     "node": ">=18"

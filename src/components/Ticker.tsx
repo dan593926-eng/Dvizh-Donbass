@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 type TickerProps = {
   items: readonly string[];
   variant?: "gold" | "dark";
@@ -14,6 +16,19 @@ type TickerProps = {
  */
 export function Ticker({ items, variant = "gold", tilt = -2, reverse = false }: TickerProps) {
   // Повторяем фразы, чтобы одна половина ленты была шире любого экрана (до 2560px)
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Лента крутится только пока видна на экране — вне экрана анимация на паузе
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([entry]) => {
+      el.classList.toggle("ticker-paused", !entry.isIntersecting);
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const line = Array.from({ length: 3 }, () => items.join("  ✦  ")).join("  ✦  ") + "  ✦  ";
   const colors =
     variant === "gold"
@@ -22,6 +37,7 @@ export function Ticker({ items, variant = "gold", tilt = -2, reverse = false }: 
 
   return (
     <div
+      ref={ref}
       className="pointer-events-none relative overflow-hidden py-8 sm:py-10"
       style={{ pointerEvents: "none" }}
       aria-hidden="true"

@@ -4,16 +4,20 @@ import { movement } from "@/config/siteData";
 import { MediaImage } from "@/components/MediaImage";
 import { RevealText } from "@/animations/RevealText";
 import { useIsTouchDevice } from "@/hooks/usePointerType";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { fadeUp } from "@/animations/variants";
 
 export function MovementCTA() {
   const ref = useRef<HTMLElement>(null);
   const isTouch = useIsTouchDevice();
+  const reducedMotion = useReducedMotion();
+  // Параллакс фона только на компьютерах — на телефонах он дрожит при прокрутке
+  const parallax = !isTouch && !reducedMotion;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-  const bgY = useTransform(scrollYProgress, [0, 1], isTouch ? ["-3%", "3%"] : ["-8%", "8%"]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   return (
     <section
@@ -21,7 +25,7 @@ export function MovementCTA() {
       ref={ref}
       className="relative isolate flex min-h-[80vh] items-center justify-center overflow-hidden bg-black px-5 py-28 sm:px-8"
     >
-      <motion.div style={{ y: bgY }} className="absolute inset-0 -z-10" aria-hidden="true">
+      <motion.div style={parallax ? { y: bgY } : undefined} className="absolute inset-0 -z-10" aria-hidden="true">
         <MediaImage
           src="/images/movement/crowd.jpg"
           alt=""
