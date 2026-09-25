@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useRef, useState, type ReactNode, type MouseEvent } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import type { MouseEvent, ReactNode } from "react";
 import { useIsTouchDevice } from "@/hooks/usePointerType";
 
 type MagneticButtonProps = {
@@ -13,8 +13,9 @@ type MagneticButtonProps = {
 };
 
 /**
- * Оборачивает кнопку/ссылку лёгким "магнитным" смещением к курсору.
- * На touch-устройствах ведёт себя как обычный элемент — без смещения.
+ * Кнопка/ссылка с лёгким «магнитным» смещением к курсору.
+ * Смещение идёт через motion values — без перерисовки React на каждое движение мыши.
+ * На touch-устройствах — обычная кнопка без эффекта.
  */
 export function MagneticButton({
   children,
@@ -24,40 +25,40 @@ export function MagneticButton({
   ariaLabel,
   external = Boolean(href),
 }: MagneticButtonProps) {
-  const anchorRef = useRef<HTMLAnchorElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
   const isTouch = useIsTouchDevice();
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const x = useSpring(rawX, { stiffness: 150, damping: 12, mass: 0.4 });
+  const y = useSpring(rawY, { stiffness: 150, damping: 12, mass: 0.4 });
 
-  const handleMove = (e: MouseEvent) => {
-    const el = href ? anchorRef.current : buttonRef.current;
-    if (isTouch || !el) return;
-    const rect = el.getBoundingClientRect();
-    const relX = e.clientX - (rect.left + rect.width / 2);
-    const relY = e.clientY - (rect.top + rect.height / 2);
-    setOffset({ x: relX * 0.25, y: relY * 0.35 });
+  const handleMove = (e: MouseEvent<HTMLElement>) => {
+    if (isTouch) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    rawX.set((e.clientX - (rect.left + rect.width / 2)) * 0.25);
+    rawY.set((e.clientY - (rect.top + rect.height / 2)) * 0.35);
   };
 
-  const reset = () => setOffset({ x: 0, y: 0 });
+  const reset = () => {
+    rawX.set(0);
+    rawY.set(0);
+  };
 
-  const motionProps = {
+  const shared = {
     onMouseMove: handleMove,
     onMouseLeave: reset,
-    "data-cursor": "hover" as const,
+    "data-cursor": "hover",
     "aria-label": ariaLabel,
-    animate: { x: offset.x, y: offset.y },
-    transition: { type: "spring" as const, stiffness: 150, damping: 12, mass: 0.4 },
+    style: { x, y },
     className,
   };
 
   if (href) {
     return (
       <motion.a
-        ref={anchorRef}
         href={href}
         target={external ? "_blank" : undefined}
         rel={external ? "noreferrer noopener" : undefined}
-        {...motionProps}
+        {...shared}
       >
         {children}
       </motion.a>
@@ -65,7 +66,7 @@ export function MagneticButton({
   }
 
   return (
-    <motion.button ref={buttonRef} type="button" onClick={onClick} {...motionProps}>
+    <motion.button type="button" onClick={onClick} {...shared}>
       {children}
     </motion.button>
   );

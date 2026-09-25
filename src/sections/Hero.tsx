@@ -7,6 +7,7 @@ import { Particles } from "@/components/Particles";
 import { useIsTouchDevice } from "@/hooks/usePointerType";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { asset } from "@/lib/asset";
+import { isLowPerf } from "@/lib/performance";
 import { staggerContainer, wordReveal, fadeIn, scaleIn } from "@/animations/variants";
 
 type HeroProps = {
@@ -70,18 +71,28 @@ export function Hero({ ready }: HeroProps) {
         </motion.div>
       )}
 
-      {/* Световые засветы: тёплый луч прожектора и красноватый отблеск плёнки */}
+      {/* Световые засветы: мягкие радиальные градиенты вместо filter: blur —
+          выглядят так же, но почти ничего не стоят видеокарте */}
       <motion.div
         aria-hidden="true"
         style={{ y: glowY }}
         className="pointer-events-none absolute inset-0"
       >
-        <div className="light-leak blur-heavy absolute left-1/2 top-[6%] h-[60vh] w-[90vw] max-w-[900px] -translate-x-1/2 rounded-full bg-gold/20 blur-[110px]" />
-        <div className="light-leak-slow blur-heavy absolute -left-[10%] top-[25%] h-[40vh] w-[45vw] rounded-full bg-ember/20 blur-[100px]" />
-        <div className="light-leak blur-heavy absolute -right-[12%] top-[10%] h-[30vh] w-[35vw] rounded-full bg-gold/10 blur-[90px]" />
+        <div
+          className="light-leak absolute left-1/2 top-[-12%] h-[95vh] w-[120vw] max-w-[1400px] -translate-x-1/2"
+          style={{ background: "radial-gradient(closest-side, rgba(255,216,0,0.22), rgba(255,216,0,0.06) 55%, transparent)" }}
+        />
+        <div
+          className="light-leak-slow absolute -left-[25%] top-[12%] h-[70vh] w-[70vw]"
+          style={{ background: "radial-gradient(closest-side, rgba(193,68,30,0.22), transparent)" }}
+        />
+        <div
+          className="light-leak absolute -right-[25%] top-[-6%] h-[60vh] w-[60vw]"
+          style={{ background: "radial-gradient(closest-side, rgba(255,216,0,0.12), transparent)" }}
+        />
       </motion.div>
 
-      <Particles />
+      {!isLowPerf && <Particles />}
 
       {/* Силуэт терриконов — та же гора, что в логотипе, в масштабе пейзажа */}
       <motion.svg

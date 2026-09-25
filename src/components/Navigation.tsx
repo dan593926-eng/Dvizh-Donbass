@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { nav } from "@/config/siteData";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
+import { isLowPerf } from "@/lib/performance";
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -22,7 +23,7 @@ export function Navigation() {
         className={[
           "fixed inset-x-0 top-0 z-50 transition-colors duration-500",
           scrolled
-            ? "bg-black/70 backdrop-blur-md border-b border-white/5"
+            ? `bg-black/90 border-b border-white/5 ${isLowPerf ? "" : "lg:bg-black/75 lg:backdrop-blur-md"}`
             : "bg-transparent",
         ].join(" ")}
         style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}

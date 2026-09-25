@@ -70,7 +70,7 @@ export function IntroOverlay({ onDone }: IntroOverlayProps) {
           aria-hidden="true"
           onClick={() => setVisible(false)}
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, filter: "blur(8px)" }}
+          exit={{ opacity: 0, scale: 1.04 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-black"
         >
