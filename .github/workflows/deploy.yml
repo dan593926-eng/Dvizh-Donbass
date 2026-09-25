@@ -18,11 +18,9 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
-
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-<<<<<<< HEAD
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -32,21 +30,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-=======
-        uses: actions/checkout@v7
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          package-manager-cache: false
-
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund
-
-      - name: Type check
-        run: npm run typecheck
->>>>>>> 45eedf24820590246d043fd2acc44b3021b432e3
 
       - name: Build
         run: npm run build
@@ -62,12 +45,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-<<<<<<< HEAD
-=======
-    runs-on: ubuntu-24.04
-    needs: build
-
->>>>>>> 45eedf24820590246d043fd2acc44b3021b432e3
     steps:
       - name: Deploy
         id: deployment
