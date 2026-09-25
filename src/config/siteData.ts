@@ -17,7 +17,6 @@ export const nav = [
   { label: "Главная", href: "#home" },
   { label: "О движении", href: "#about" },
   { label: "Музыка", href: "#music" },
-  { label: "История", href: "#history" },
   { label: "Фото", href: "#gallery" },
   { label: "Видео", href: "#video" },
   { label: "Движ", href: "#movement" },
