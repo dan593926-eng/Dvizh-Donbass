@@ -45,8 +45,8 @@ export const hero = {
 /** Короткий интро-экран при первом открытии сайта (показывается 1 раз за сессию). */
 export const intro = {
   enabled: true,
-  wordTop: "ДВИЖ",
-  wordBottom: "ДОНБАСС",
+  wordTop: "Dvizh",
+  wordBottom: "Donbas",
 };
 
 /** Бегущие строки между секциями */
