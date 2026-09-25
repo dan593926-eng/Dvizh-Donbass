@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Film, Play, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { videoSection } from "@/config/siteData";
 import { videoClips } from "@/data/videos";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -71,6 +71,16 @@ export function Video() {
   const [openSrc, setOpenSrc] = useState<string | null>(null);
   useLockBodyScroll(openSrc !== null);
 
+  // Escape закрывает видео
+  useEffect(() => {
+    if (!openSrc) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenSrc(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openSrc]);
+
   if (videoClips.length === 0) {
     return (
       <section id="video" className="bg-graphite px-5 py-24 sm:px-8 sm:py-32">
@@ -121,13 +131,16 @@ export function Video() {
             className="fixed inset-0 z-[80] flex items-center justify-center bg-black/95 p-4"
             role="dialog"
             aria-modal="true"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setOpenSrc(null); // клик по фону
+            }}
           >
             <button
               type="button"
               onClick={() => setOpenSrc(null)}
               aria-label="Закрыть видео"
               data-cursor="hover"
-              className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-bone sm:right-8 sm:top-8"
+              className="absolute right-3 top-3 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-white/25 bg-black/60 text-bone hover:border-gold hover:text-gold sm:right-6 sm:top-6"
               style={{ marginTop: "env(safe-area-inset-top, 0px)" }}
             >
               <X size={20} />
