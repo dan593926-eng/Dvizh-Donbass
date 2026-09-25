@@ -3,24 +3,6 @@ import { useEffect, useState } from "react";
 import { intro } from "@/config/siteData";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
-const STORAGE_KEY = "dvizh-intro-seen";
-
-function alreadySeen(): boolean {
-  try {
-    return sessionStorage.getItem(STORAGE_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-
-function markSeen() {
-  try {
-    sessionStorage.setItem(STORAGE_KEY, "1");
-  } catch {
-    /* приватный режим браузера — просто показываем интро снова */
-  }
-}
-
 type IntroOverlayProps = {
   onDone: () => void;
 };
@@ -28,13 +10,14 @@ type IntroOverlayProps = {
 /**
  * Кинематографичное интро ~2 секунды:
  * чёрный экран → шум плёнки → «ДВИЖ» → «ДОНБАСС» → экран растворяется.
- * Показывается один раз за сессию, пропускается кликом/клавишей,
- * полностью отключается при prefers-reduced-motion.
+ * Показывается при каждом открытии и обновлении страницы — сайт всегда
+ * запускается «как в первый раз». Пропускается кликом/клавишей,
+ * отключается при prefers-reduced-motion (настройка доступности системы).
  */
 export function IntroOverlay({ onDone }: IntroOverlayProps) {
   const reducedMotion = useReducedMotion();
   const [visible, setVisible] = useState(
-    () => intro.enabled && !reducedMotion && !alreadySeen()
+    () => intro.enabled && !reducedMotion
   );
 
   useEffect(() => {
@@ -59,10 +42,7 @@ export function IntroOverlay({ onDone }: IntroOverlayProps) {
 
   return (
     <AnimatePresence
-      onExitComplete={() => {
-        markSeen();
-        onDone();
-      }}
+      onExitComplete={onDone}
     >
       {visible && (
         <motion.div

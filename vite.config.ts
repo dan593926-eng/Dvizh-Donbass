@@ -30,6 +30,7 @@ export default defineConfig({
     target: "es2020",
     rollupOptions: {
       output: {
+        // Тяжёлые библиотеки — в отдельные чанки, лучше кешируются браузером
         manualChunks: {
           "vendor-motion": ["framer-motion"],
           "vendor-react": ["react", "react-dom"],
