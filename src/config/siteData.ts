@@ -28,7 +28,7 @@ export const hero = {
   titleTop: "ДВИЖ",
   titleBottom: "ДОНБАСС",
   subtitle:
-    "Там, где терриконы встречаются с закатом, а колонки — с рассветом.",
+    "ДОНБАСС ПОРОЖНЯК НЕ ГОНИТ",
   scrollHint: "Листай вниз",
   /**
    * Необязательный фон первого экрана (толпа, концерт, ночной город).
@@ -44,8 +44,13 @@ export const hero = {
 /** Короткий интро-экран при первом открытии сайта (показывается 1 раз за сессию). */
 export const intro = {
   enabled: true,
+<<<<<<< HEAD
   wordTop: "DVIZH",
   wordBottom: "DONBAS",
+=======
+  wordTop: "Dvizh",
+  wordBottom: "Donbas",
+>>>>>>> cc76ca00e7b2da481ecbc92b6c2355fc5d401da3
 };
 
 /** Бегущие строки между секциями */
@@ -135,7 +140,7 @@ export const footer = {
 // Замените на реальные ссылки сообщества — иконки подберутся автоматически
 // по полю `type` (см. src/components/Footer.tsx).
 export const socialLinks = [
-  { type: "telegram", label: "Telegram", href: "https://t.me/your_channel" },
+  { type: "telegram", label: "Telegram", href: "https://t.me/dvizh_donbas/1" },
   { type: "instagram", label: "Instagram", href: "https://instagram.com/your_page" },
   { type: "vk", label: "VK", href: "https://vk.com/your_group" },
   { type: "youtube", label: "YouTube", href: "https://youtube.com/@your_channel" },
