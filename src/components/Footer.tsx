@@ -1,13 +1,21 @@
-import { ArrowUp, Instagram, Send, Users, Youtube, type LucideIcon } from "lucide-react";
+import type { ComponentType } from "react";
+import { ArrowUp, Globe, Instagram, Send, Users, Youtube } from "lucide-react";
 import { footer, socialLinks, contactsSection } from "@/config/siteData";
 import { Logo } from "./Logo";
 import { MagneticButton } from "./MagneticButton";
+import { DiscordIcon, TikTokIcon } from "./SocialIcons";
 
-const ICONS: Record<string, LucideIcon> = {
+type IconComponent = ComponentType<{ size?: number }>;
+
+// Иконка подбирается по полю `type` в socialLinks (src/config/siteData.ts).
+// Для неизвестного типа показывается значок «глобус».
+const ICONS: Record<string, IconComponent> = {
   telegram: Send,
   instagram: Instagram,
-  vk: Users,
+  discord: DiscordIcon,
+  tiktok: TikTokIcon,
   youtube: Youtube,
+  vk: Users,
 };
 
 export function Footer() {
@@ -28,7 +36,7 @@ export function Footer() {
 
         <div className="mt-10 flex flex-wrap gap-3">
           {socialLinks.map((link) => {
-            const Icon = ICONS[link.type] ?? Users;
+            const Icon = ICONS[link.type] ?? Globe;
             return (
               <MagneticButton
                 key={link.type}
