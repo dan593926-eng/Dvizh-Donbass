@@ -1,8 +1,8 @@
-node_modules/
-dist/
+node_modules
+dist
+dist-ssr
+*.local
 .DS_Store
-.vscode/
-.idea/
-.env
-.env.*
-!.env.example
+.vscode/*
+!.vscode/extensions.json
+*.log

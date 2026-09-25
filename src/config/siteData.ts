@@ -1,261 +1,150 @@
-export type Social = {
-  label: string
-  href: string
-}
+/**
+ * ЕДИНЫЙ ФАЙЛ КОНТЕНТА САЙТА
+ * ---------------------------------------------------------------
+ * Меняйте тексты, ссылки и подписи здесь — компоненты трогать не нужно.
+ * Фотографии/видео/аудио лежат в /public/images, /public/videos, /public/audio
+ * и подключаются в src/data/*.ts (там же — как их заменить).
+ */
 
-export type GalleryItem = {
-  id: string
-  title: string
-  meta: string
-  image: string
-  srcSet: string
-  alt: string
-}
+export const site = {
+  name: "ДВИЖ ДОНБАСС",
+  tagline: "TERIKON CULTURE",
+  description:
+    "Не просто сайт и не фан-клуб. Это музыка, свобода, единство и энергия улицы.",
+};
 
-export type TimelineItem = {
-  date: string
-  title: string
-  text: string
-}
+export const nav = [
+  { label: "Главная", href: "#home" },
+  { label: "О движении", href: "#about" },
+  { label: "Музыка", href: "#music" },
+  { label: "История", href: "#history" },
+  { label: "Фото", href: "#gallery" },
+  { label: "Видео", href: "#video" },
+  { label: "Движ", href: "#movement" },
+  { label: "Контакты", href: "#contacts" },
+];
 
-export type Track = {
-  title: string
-  artist: string
-  cover: string
-  src?: string
-}
+export const hero = {
+  kicker: "TERIKON CULTURE",
+  titleTop: "ДВИЖ",
+  titleBottom: "ДОНБАСС",
+  subtitle:
+    "Там, где терриконы встречаются с закатом, а колонки — с рассветом.",
+  scrollHint: "Листай вниз",
+  /**
+   * Необязательный фон первого экрана (толпа, концерт, ночной город).
+   * Оставьте пустую строку — будет фирменный фон с терриконами.
+   * Пример: "/images/hero/crowd.jpg" и "/videos/hero.mp4" (mp4 до ~5 МБ, без звука).
+   * Если указаны оба, картинка станет обложкой видео и заменит его на телефонах
+   * с включённой экономией анимаций.
+   */
+  backgroundImage: "",
+  backgroundVideo: "",
+};
 
-export const siteData = {
-  brand: {
-    name: 'ДВИЖ ДОНБАСС',
-    kicker: 'TERIKON CULTURE',
-    description:
-      'Музыка, улица, друзья, концерты и воспоминания. Не просто слушаем — проживаем.',
-    footerLine: 'Музыка заканчивается. Движ остаётся.',
-  },
+/** Короткий интро-экран при первом открытии сайта (показывается 1 раз за сессию). */
+export const intro = {
+  enabled: true,
+  wordTop: "ДВИЖ",
+  wordBottom: "ДОНБАСС",
+};
 
-  nav: [
-    { id: 'home', label: 'Главная' },
-    { id: 'about', label: 'О движении' },
-    { id: 'music', label: 'Музыка' },
-    { id: 'history', label: 'История' },
-    { id: 'gallery', label: 'Фото' },
-    { id: 'video', label: 'Видео' },
-    { id: 'dvizh', label: 'Движ' },
-    { id: 'contacts', label: 'Контакты' },
+/** Бегущие строки между секциями */
+export const tickers = {
+  primary: ["ДВИЖ ДОНБАСС", "TERIKON CULTURE", "ГДЕ ТЫ — ТАМ И ДВИЖ"],
+  secondary: ["МУЗЫКА", "СВОБОДА", "ДРУЗЬЯ", "ДОРОГА", "ТЕРРИКОНЫ", "ДВИЖ"],
+};
+
+export const about = {
+  heading: "МЫ — ДВИЖ",
+  paragraphs: [
+    "Движ Донбасс начался не с сайта и не с идеи «сделать сообщество». Он начался в толпе — где-то между первым рядом и колонками, между случайным знакомством и песней, которую знают все вокруг.",
+    "Это про то, как один трек может собрать людей из разных городов в одном дворе. Про дорогу до концерта, которая запоминается больше, чем сам концерт. Про друзей, которых находишь в толпе незнакомцев.",
+    "Мы не продаём атмосферу. Мы её собираем — по кусочку, с каждой поездки, каждой встречи, каждого лета.",
   ],
+  quote: "Мы не просто слушаем музыку. Мы живём ей.",
+};
 
-  hero: {
-    eyebrow: 'NOT A FAN CLUB. A STATE OF MIND.',
-    titleTop: 'ДВИЖ',
-    titleBottom: 'ДОНБАСС',
-    supporting: 'Своя музыка. Свои люди. Своя память.',
-    scrollLabel: 'Листай вниз',
+export const cultureItems = [
+  {
+    id: "music",
+    title: "Музыка",
+    text: "Треки, которые становятся общим языком двора и трассы.",
   },
-
-  about: {
-    index: '01',
-    eyebrow: 'О ДВИЖЕНИИ',
-    title: 'МЫ — ДВИЖ',
-    text:
-      'Есть места, где музыка просто играет фоном. А есть моменты, когда она становится общей памятью. «Движ Донбасс» — про это чувство: когда рядом свои, город не спит, дорога кажется короче, а несколько секунд из толпы потом вспоминаются годами.',
-    quote: 'Мы не просто слушаем музыку. Мы живём ей.',
-    facts: [
-      ['Люди', 'свои рядом'],
-      ['Звук', 'громче мыслей'],
-      ['Ночь', 'ещё не конец'],
-    ],
+  {
+    id: "concerts",
+    title: "Концерты",
+    text: "Первый ряд, последний вагон электрички домой — и не жалко.",
   },
-
-  culture: {
-    index: '02',
-    eyebrow: 'КУЛЬТУРА',
-    title: 'НЕ КАРТОЧКИ. МОМЕНТЫ.',
-    intro: 'То, из чего складывается наш движ.',
-    items: [
-      {
-        title: 'Музыка',
-        tag: 'SOUND',
-        image: '/images/culture-01-1440.webp',
-        srcSet: '/images/culture-01-720.webp 720w, /images/culture-01-1440.webp 1440w',
-      },
-      {
-        title: 'Концерты',
-        tag: 'LIVE',
-        image: '/images/culture-02-1440.webp',
-        srcSet: '/images/culture-02-720.webp 720w, /images/culture-02-1440.webp 1440w',
-      },
-      {
-        title: 'Дороги',
-        tag: 'ROAD',
-        image: '/images/culture-03-1440.webp',
-        srcSet: '/images/culture-03-720.webp 720w, /images/culture-03-1440.webp 1440w',
-      },
-      {
-        title: 'Свои',
-        tag: 'PEOPLE',
-        image: '/images/culture-04-1440.webp',
-        srcSet: '/images/culture-04-720.webp 720w, /images/culture-04-1440.webp 1440w',
-      },
-      {
-        title: 'Свобода',
-        tag: 'STATE',
-        image: '/images/culture-05-1440.webp',
-        srcSet: '/images/culture-05-720.webp 720w, /images/culture-05-1440.webp 1440w',
-      },
-      {
-        title: 'Память',
-        tag: 'MEMORY',
-        image: '/images/culture-06-1440.webp',
-        srcSet: '/images/culture-06-720.webp 720w, /images/culture-06-1440.webp 1440w',
-      },
-    ],
+  {
+    id: "terikony",
+    title: "Терриконы",
+    text: "Рукотворные горы на горизонте — ни с чем не спутаешь этот пейзаж.",
   },
-
-  music: {
-    index: '03',
-    eyebrow: 'МУЗЫКА',
-    title: 'НАШ САУНДТРЕК',
-    text:
-      'Здесь можно подключить собственные легальные аудиофайлы или официальные источники. Плеер готов — треки лежат отдельно от компонентов.',
-    tracks: [
-      {
-        title: 'Добавь свой трек',
-        artist: 'public/audio/your-track.mp3',
-        cover: '/images/music-cover.webp',
-      },
-    ] satisfies Track[],
+  {
+    id: "friends",
+    title: "Друзья",
+    text: "Знакомства, которые начинаются словами «а ты тоже сюда?»",
   },
-
-  history: {
-    index: '04',
-    eyebrow: 'ИСТОРИЯ',
-    title: 'ПАМЯТЬ НЕ СТИРАЕТСЯ',
-    text:
-      'Этот таймлайн специально вынесен в конфигурацию. Добавляй реальные даты, поездки, концерты, встречи и события движения, не трогая компоненты.',
-    timeline: [
-      {
-        date: '2010-е',
-        title: 'Начинается своя история',
-        text: 'Музыка становится фоном для дорог, разговоров, первых больших воспоминаний и больших вечеров.',
-      },
-      {
-        date: 'Потом',
-        title: 'Свои находят своих',
-        text: 'Появляются общие маршруты, фото, встречи и ощущение, что этот движ существует сам по себе.',
-      },
-      {
-        date: 'Сегодня',
-        title: 'Движ продолжается',
-        text: 'Новые лица, новые дороги и те же эмоции. Остальное допишет время.',
-      },
-    ] satisfies TimelineItem[],
+  {
+    id: "street",
+    title: "Улица",
+    text: "Двор, подъезд, остановка — там, где всё и начинается.",
   },
-
-  gallery: {
-    index: '05',
-    eyebrow: 'ФОТО',
-    title: 'КАДРЫ, КОТОРЫЕ ОСТАЛИСЬ',
-    items: [
-      {
-        id: 'g1',
-        title: 'После концерта',
-        meta: 'NIGHT / 01',
-        image: '/images/gallery-01-1440.webp',
-        srcSet: '/images/gallery-01-720.webp 720w, /images/gallery-01-1440.webp 1440w',
-        alt: 'Атмосферный ночной кадр после концерта',
-      },
-      {
-        id: 'g2',
-        title: 'Дорога домой',
-        meta: 'ROAD / 02',
-        image: '/images/gallery-02-1440.webp',
-        srcSet: '/images/gallery-02-720.webp 720w, /images/gallery-02-1440.webp 1440w',
-        alt: 'Ночная дорога и свет фонарей',
-      },
-      {
-        id: 'g3',
-        title: 'Сектор своих',
-        meta: 'PEOPLE / 03',
-        image: '/images/gallery-03-1440.webp',
-        srcSet: '/images/gallery-03-720.webp 720w, /images/gallery-03-1440.webp 1440w',
-        alt: 'Толпа под концертными прожекторами',
-      },
-      {
-        id: 'g4',
-        title: 'Ночью всё громче',
-        meta: 'CITY / 04',
-        image: '/images/gallery-04-1440.webp',
-        srcSet: '/images/gallery-04-720.webp 720w, /images/gallery-04-1440.webp 1440w',
-        alt: 'Ночной город с жёлтыми огнями',
-      },
-      {
-        id: 'g5',
-        title: 'Без лишних слов',
-        meta: 'MEMORY / 05',
-        image: '/images/gallery-05-1440.webp',
-        srcSet: '/images/gallery-05-720.webp 720w, /images/gallery-05-1440.webp 1440w',
-        alt: 'Силуэты друзей в тёплом свете',
-      },
-      {
-        id: 'g6',
-        title: 'Ещё один вечер',
-        meta: 'ROAD / 06',
-        image: '/images/gallery-06-1440.webp',
-        srcSet: '/images/gallery-06-720.webp 720w, /images/gallery-06-1440.webp 1440w',
-        alt: 'Дорога с красными и золотыми огнями',
-      },
-      {
-        id: 'g7',
-        title: 'Город говорит',
-        meta: 'STREET / 07',
-        image: '/images/gallery-07-1440.webp',
-        srcSet: '/images/gallery-07-720.webp 720w, /images/gallery-07-1440.webp 1440w',
-        alt: 'Уличный свет и городская фактура',
-      },
-      {
-        id: 'g8',
-        title: 'Движ идёт',
-        meta: 'ENERGY / 08',
-        image: '/images/gallery-08-1440.webp',
-        srcSet: '/images/gallery-08-720.webp 720w, /images/gallery-08-1440.webp 1440w',
-        alt: 'Сценический свет над толпой',
-      },
-    ] satisfies GalleryItem[],
+  {
+    id: "road",
+    title: "Дорога",
+    text: "Плейлист на всю ночь и указатель «до следующего города».",
   },
-
-  video: {
-    index: '06',
-    eyebrow: 'ВИДЕО',
-    title: 'ПОЙМАЙ МОМЕНТ',
-    description:
-      'Секция подготовлена под YouTube/VK/Telegram или локальные видео. Просто замени ссылки в siteData.ts.',
-    items: [
-      {
-        title: 'Плейлист движения',
-        meta: 'SOURCE PLACEHOLDER',
-        href: 'https://youtube.com/',
-        poster: '/images/video-01-1440.webp',
-      },
-      {
-        title: 'Ночной город / live',
-        meta: 'VIDEO PLACEHOLDER',
-        href: 'https://youtube.com/',
-        poster: '/images/video-02-1440.webp',
-      },
-    ],
+  {
+    id: "memory",
+    title: "Воспоминания",
+    text: "Фото, которые пересматриваешь спустя годы — и улыбаешься.",
   },
+] as const;
 
-  dvizh: {
-    index: '07',
-    title: 'ГДЕ ТЫ — ТАМ И ДВИЖ.',
-    subline: 'Не место на карте. Состояние внутри.',
-  },
+export const musicSection = {
+  heading: "МУЗЫКА",
+  subheading:
+    "Добавьте свои легальные аудиофайлы в /public/audio — плеер подхватит их автоматически из src/data/tracks.ts.",
+  emptyState:
+    "Треки ещё не добавлены. Загляните в src/data/tracks.ts — там объяснено, как подключить свою подборку.",
+};
 
-  socials: [
-    { label: 'Telegram', href: 'https://t.me/' },
-    { label: 'Instagram', href: 'https://instagram.com/' },
-    { label: 'VK', href: 'https://vk.com/' },
-    { label: 'YouTube', href: 'https://youtube.com/' },
-  ] satisfies Social[],
-} as const
+export const historyHeading = "ИСТОРИЯ";
+
+export const galleryHeading = {
+  title: "ФОТО",
+  subtitle: "Моменты, которые не влезают в один кадр.",
+};
+
+export const videoSection = {
+  heading: "ВИДЕО",
+  subtitle: "Клипы с движа — от первого лица.",
+};
+
+export const movement = {
+  heading: "ГДЕ ТЫ — ТАМ И ДВИЖ.",
+  body: "Не важно, откуда ты выехал и куда едешь дальше. Если рядом свои — движ уже начался.",
+};
+
+export const footer = {
+  name: "ДВИЖ ДОНБАСС",
+  tagline: "Музыка заканчивается. Движ остаётся.",
+  contactsHeading: "КОНТАКТЫ",
+  copyright: `© ${new Date().getFullYear()} Движ Донбасс. Сделано своими.`,
+};
+
+// Замените на реальные ссылки сообщества — иконки подберутся автоматически
+// по полю `type` (см. src/components/Footer.tsx).
+export const socialLinks = [
+  { type: "telegram", label: "Telegram", href: "https://t.me/your_channel" },
+  { type: "instagram", label: "Instagram", href: "https://instagram.com/your_page" },
+  { type: "vk", label: "VK", href: "https://vk.com/your_group" },
+  { type: "youtube", label: "YouTube", href: "https://youtube.com/@your_channel" },
+] as const;
+
+export const contactsSection = {
+  heading: "НА СВЯЗИ",
+  body: "Пишите, предлагайте фото и видео с движа, зовите в свой город — мы на связи во всех соцсетях.",
+};
