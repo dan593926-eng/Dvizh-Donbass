@@ -9,7 +9,6 @@ import { Footer } from "@/components/Footer";
 import { tickers } from "@/config/siteData";
 import { Hero } from "@/sections/Hero";
 import { About } from "@/sections/About";
-import { Culture } from "@/sections/Culture";
 import { Music } from "@/sections/Music";
 import { Gallery } from "@/sections/Gallery";
 import { Video } from "@/sections/Video";
@@ -33,7 +32,6 @@ export default function App() {
         <Hero ready={introDone} />
         <About />
         <Ticker items={tickers.primary} variant="gold" tilt={-2} />
-        <Culture />
         <Music />
         <Gallery />
         <Ticker items={tickers.secondary} variant="dark" tilt={1.5} reverse />
