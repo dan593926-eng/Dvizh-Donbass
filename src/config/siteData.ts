@@ -16,10 +16,10 @@ export const site = {
 export const nav = [
   { label: "Главная", href: "#home" },
   { label: "О движении", href: "#about" },
+  { label: "Карта", href: "#map" },
   { label: "Музыка", href: "#music" },
   { label: "Фото", href: "#gallery" },
   { label: "Видео", href: "#video" },
-  { label: "Карта", href: "#map" },
   { label: "Движ", href: "#movement" },
   { label: "Контакты", href: "#contacts" },
 ];
