@@ -32,11 +32,11 @@ export default function App() {
         <Hero ready={introDone} />
         <About />
         <Ticker items={tickers.primary} variant="gold" tilt={-2} />
+        {meetupsConfig.enabled && <MeetupMap />}
         <Music />
         <Gallery />
         <Ticker items={tickers.secondary} variant="dark" tilt={1.5} reverse />
         <Video />
-        {meetupsConfig.enabled && <MeetupMap />}
         <MovementCTA />
       </main>
 
