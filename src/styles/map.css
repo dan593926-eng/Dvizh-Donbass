@@ -1,0 +1,78 @@
+/* Оформление карты сходок под тёмный стиль сайта */
+.meetup-map .leaflet-container {
+  background: #0a0908;
+  font-family: "Manrope", system-ui, sans-serif;
+}
+.meetup-pin-wrap {
+  background: none;
+  border: 0;
+}
+.meetup-pin {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffd800;
+  border: 3px solid #0a0908;
+  box-shadow: 0 0 0 2px rgba(255, 216, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.6);
+}
+.meetup-pin.is-live::after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border-radius: 50%;
+  border: 2px solid #ffd800;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .meetup-pin.is-live::after {
+    animation: meetup-pulse 1.6s ease-out infinite;
+  }
+}
+@keyframes meetup-pulse {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.meetup-popup .leaflet-popup-content-wrapper,
+.meetup-popup .leaflet-popup-tip {
+  background: #17140f;
+  color: #f3efe7;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+.meetup-popup .leaflet-popup-content-wrapper {
+  border-radius: 10px;
+}
+.meetup-popup .leaflet-popup-content {
+  margin: 14px 16px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.meetup-popup h4 {
+  margin: 0 0 4px;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+}
+.meetup-popup .when { color: #ffd800; font-weight: 600; }
+.meetup-popup .addr { color: #8b847a; }
+.meetup-popup p { margin: 6px 0 0; }
+.meetup-popup a { color: #ffd800; font-weight: 600; }
+.meetup-popup .leaflet-popup-close-button { color: #8b847a; }
+.meetup-map .leaflet-bar {
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+.meetup-map .leaflet-bar a {
+  background: #17140f;
+  color: #f3efe7;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+.meetup-map .leaflet-bar a:hover { background: #322d26; color: #ffd800; }
+.meetup-map .leaflet-control-attribution {
+  background: rgba(10, 9, 8, 0.75) !important;
+  color: #8b847a;
+}
+.meetup-map .leaflet-control-attribution a { color: #c9c2b8; }
