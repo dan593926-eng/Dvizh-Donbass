@@ -8,6 +8,10 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  * Позиция идёт через motion values (без перерисовки React на каждое движение мыши);
  * состояние меняется только когда курсор заходит на ссылку/кнопку или уходит с неё.
  * Полностью отключён на touch-устройствах и при prefers-reduced-motion.
+ *
+ * Над встроенными плеерами (Spotify, YouTube и др. — это <iframe>) сайт не получает
+ * движения мыши, поэтому там фирменный курсор прячется и работает обычный.
+ * При возврате на страницу он сразу появляется под мышкой, без «перелёта».
  */
 export function CustomCursor() {
   const isTouch = useIsTouchDevice();
@@ -26,7 +30,21 @@ export function CustomCursor() {
     if (isTouch || reducedMotion) return;
     document.documentElement.classList.add("cursor-ready");
 
+    const hide = () => {
+      visibleRef.current = false;
+      setVisible(false);
+      if (hoverRef.current) {
+        hoverRef.current = false;
+        setIsHovering(false);
+      }
+    };
+
     const handleMove = (e: MouseEvent) => {
+      if (!visibleRef.current) {
+        // Появляемся сразу в точке мыши — кольцо не «летит» из старой позиции
+        ringX.jump(e.clientX);
+        ringY.jump(e.clientY);
+      }
       x.set(e.clientX);
       y.set(e.clientY);
       if (!visibleRef.current) {
@@ -37,6 +55,11 @@ export function CustomCursor() {
 
     const handleOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
+      // Мышь зашла на встроенный плеер — прячем фирменный курсор
+      if (target?.tagName === "IFRAME") {
+        hide();
+        return;
+      }
       const interactive = Boolean(
         target?.closest?.('a, button, [data-cursor="hover"], input, textarea')
       );
@@ -46,22 +69,22 @@ export function CustomCursor() {
       }
     };
 
-    const handleLeave = () => {
-      visibleRef.current = false;
-      setVisible(false);
-    };
+    const handleLeave = () => hide();
 
     window.addEventListener("mousemove", handleMove, { passive: true });
     window.addEventListener("mouseover", handleOver, { passive: true });
     document.documentElement.addEventListener("mouseleave", handleLeave);
+    // Клик внутри плеера переводит фокус в него — тоже прячем курсор
+    window.addEventListener("blur", hide);
 
     return () => {
+      window.removeEventListener("blur", hide);
       document.documentElement.classList.remove("cursor-ready");
       window.removeEventListener("mousemove", handleMove);
       window.removeEventListener("mouseover", handleOver);
       document.documentElement.removeEventListener("mouseleave", handleLeave);
     };
-  }, [isTouch, reducedMotion, x, y]);
+  }, [isTouch, reducedMotion, x, y, ringX, ringY]);
 
   if (isTouch || reducedMotion) return null;
 
