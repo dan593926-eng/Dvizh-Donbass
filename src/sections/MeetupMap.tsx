@@ -81,11 +81,11 @@ function LeafletMap({ meetups, now, focus }: { meetups: Meetup[]; now: number; f
           touchZoom: !touch,
           worldCopyJump: true,
         });
-        Lf.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-          subdomains: "abcd",
+        // Подложка OpenStreetMap: бесплатно и без ключа. Тёмной её делает фильтр в map.css
+        Lf.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,
           attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noreferrer">CARTO</a>',
+            '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>',
         }).addTo(m);
         // Клик по карте включает зум колесом, уход мыши — выключает
         m.on("click", () => m.scrollWheelZoom.enable());
