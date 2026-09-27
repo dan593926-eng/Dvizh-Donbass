@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Music as MusicIcon, Pause, Play, SkipBack, SkipForward } from "lucide-react";
+import { ExternalLink, Music as MusicIcon, Pause, Play, SkipBack, SkipForward } from "lucide-react";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { musicSection } from "@/config/siteData";
 import { tracks } from "@/data/tracks";
@@ -8,6 +8,68 @@ import { MediaImage } from "@/components/MediaImage";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { fadeUp } from "@/animations/variants";
 import { asset } from "@/lib/asset";
+
+/**
+ * SPOTIFY
+ * ---------------------------------------------------------------
+ * По умолчанию показывается официальная страница Макса Коржа в Spotify.
+ * Чтобы поставить другую (альбом, плейлист, трек) — добавьте в src/config/siteData.ts
+ * в блок musicSection строку:
+ *   spotifyUrl: "https://open.spotify.com/playlist/....",
+ * Чтобы убрать Spotify совсем — напишите там spotifyUrl: "",
+ */
+const DEFAULT_SPOTIFY_URL = "https://open.spotify.com/artist/5meD8C7oGK5yUEY2T7ZZ7W";
+
+const configuredSpotify = (musicSection as Record<string, unknown>).spotifyUrl;
+const spotifyUrl: string =
+  typeof configuredSpotify === "string" ? configuredSpotify : DEFAULT_SPOTIFY_URL;
+
+/** Любую обычную ссылку Spotify превращает в ссылку на встраиваемый плеер */
+function toSpotifyEmbed(url: string): { src: string; height: number } | null {
+  const m = url.match(/open\.spotify\.com\/(?:intl-[a-z]+\/)?(artist|album|playlist|track|show|episode)\/([A-Za-z0-9]+)/);
+  if (!m) return null;
+  const [, type, id] = m;
+  return {
+    // theme=0 — тёмная тема плеера, под стиль сайта
+    src: `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`,
+    height: type === "track" || type === "episode" ? 152 : 452,
+  };
+}
+
+function SpotifyBlock() {
+  const embed = spotifyUrl ? toSpotifyEmbed(spotifyUrl) : null;
+  if (!embed) return null;
+  return (
+    <motion.div
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      className="mt-10 max-w-3xl"
+    >
+      {/* Плеер Spotify грузится, только когда пользователь долистает до него */}
+      <iframe
+        title="Макс Корж в Spotify"
+        src={embed.src}
+        width="100%"
+        height={embed.height}
+        loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        className="block w-full rounded-xl border-0 bg-graphite"
+      />
+      <a
+        href={spotifyUrl}
+        target="_blank"
+        rel="noreferrer noopener"
+        data-cursor="hover"
+        className="mt-4 inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-fog transition-colors hover:text-gold"
+      >
+        <ExternalLink size={16} aria-hidden="true" />
+        Открыть в Spotify
+      </a>
+    </motion.div>
+  );
+}
 
 function formatTime(seconds: number) {
   if (!Number.isFinite(seconds)) return "0:00";
@@ -94,20 +156,25 @@ export function Music() {
   }, []);
 
   if (!track) {
+    const hasSpotify = Boolean(spotifyUrl && toSpotifyEmbed(spotifyUrl));
     return (
       <section id="music" className="bg-black px-5 py-24 sm:px-8 sm:py-32">
         <div className="mx-auto max-w-7xl">
           <SectionHeading title={musicSection.heading} />
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.5 }}
-            className="prose-measure mt-10 flex items-start gap-4 rounded-sm border border-white/10 bg-graphite p-6 sm:p-8"
-          >
-            <MusicIcon className="mt-1 shrink-0 text-gold" size={22} aria-hidden="true" />
-            <p className="text-sm text-fog sm:text-base">{musicSection.emptyState}</p>
-          </motion.div>
+          {hasSpotify ? (
+            <SpotifyBlock />
+          ) : (
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.5 }}
+              className="prose-measure mt-10 flex items-start gap-4 rounded-sm border border-white/10 bg-graphite p-6 sm:p-8"
+            >
+              <MusicIcon className="mt-1 shrink-0 text-gold" size={22} aria-hidden="true" />
+              <p className="text-sm text-fog sm:text-base">{musicSection.emptyState}</p>
+            </motion.div>
+          )}
         </div>
       </section>
     );
@@ -143,6 +210,8 @@ export function Music() {
     <section id="music" className="bg-black px-5 py-24 sm:px-8 sm:py-32">
       <div className="mx-auto max-w-7xl">
         <SectionHeading title={musicSection.heading} subtitle={musicSection.subheading} />
+
+        <SpotifyBlock />
 
         <motion.div
           variants={fadeUp}
