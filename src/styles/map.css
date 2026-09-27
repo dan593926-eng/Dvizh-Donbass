@@ -3,6 +3,12 @@
   background: #0a0908;
   font-family: "Manrope", system-ui, sans-serif;
 }
+/* Светлая карта OpenStreetMap → тёмная в тёплых тонах сайта.
+   Фильтр действует только на слой с картой — точки и подсказки не затрагивает. */
+.meetup-map .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.95) saturate(0.45) sepia(0.12);
+}
+
 .meetup-pin-wrap {
   background: none;
   border: 0;
@@ -60,8 +66,9 @@
 .meetup-popup .when { color: #ffd800; font-weight: 600; }
 .meetup-popup .addr { color: #8b847a; }
 .meetup-popup p { margin: 6px 0 0; }
-.meetup-popup a { color: #ffd800; font-weight: 600; }
-.meetup-popup .leaflet-popup-close-button { color: #8b847a; }
+.meetup-map .leaflet-popup-content a { color: #ffd800; font-weight: 600; }
+.meetup-map .leaflet-popup-content a:hover { color: #ffe666; }
+.meetup-map .leaflet-popup-close-button { color: #8b847a; }
 .meetup-map .leaflet-bar {
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
