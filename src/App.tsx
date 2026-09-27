@@ -13,6 +13,8 @@ import { Culture } from "@/sections/Culture";
 import { Music } from "@/sections/Music";
 import { Gallery } from "@/sections/Gallery";
 import { Video } from "@/sections/Video";
+import { MeetupMap } from "@/sections/MeetupMap";
+import { meetupsConfig } from "@/config/meetups";
 import { MovementCTA } from "@/sections/MovementCTA";
 
 export default function App() {
@@ -36,6 +38,7 @@ export default function App() {
         <Gallery />
         <Ticker items={tickers.secondary} variant="dark" tilt={1.5} reverse />
         <Video />
+        {meetupsConfig.enabled && <MeetupMap />}
         <MovementCTA />
       </main>
 
