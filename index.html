@@ -21,11 +21,18 @@
     <!-- Логотип первого экрана грузится в первую очередь -->
     <link rel="preload" as="image" type="image/webp" href="%BASE_URL%images/brand/logo.webp" />
 
-    <!-- Open Graph / social preview -->
-    <meta property="og:title" content="ДВИЖ ДОНБАСС" />
-    <meta property="og:description" content="Музыка, свобода, единство, улица. Движ Донбасс — культурное движение." />
-    <meta property="og:image" content="%BASE_URL%images/brand/logo-mark-512.png" />
+    <!-- Превью ссылки в Telegram, WhatsApp, VK и соцсетях.
+         Нужны ПОЛНЫЕ адреса — с относительными мессенджеры картинку не показывают. -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Движ Донбасс" />
+    <meta property="og:title" content="ДВИЖ ДОНБАСС — Terikon Culture" />
+    <meta property="og:description" content="Карта сходок, музыка, фото и видео движа. Где ты — там и движ." />
+    <meta property="og:url" content="https://dvizhdonbas.github.io/" />
+    <meta property="og:image" content="https://dvizhdonbas.github.io/images/brand/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://dvizhdonbas.github.io/images/brand/og-cover.jpg" />
 
     <!-- Favicon из логотипа движения. Префикс базового пути Vite подставляет сам (нужно для GitHub Pages) -->
     <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%favicon-32.png" />
